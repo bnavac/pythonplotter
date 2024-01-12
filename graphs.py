@@ -28,13 +28,14 @@ def readCSVs(files, labels):
         labels.append(label)
     return manydf
 def plotData(dfs, labels):
-    plotGraph(dfs, labels, 'alpha', 'CL', "Alpha (degrees)", "CL", "Clalpha")
+    print("Creating graphs")
+    plotGraph(dfs, labels, 'alpha', 'CL', "Alpha (degrees)", "CL", "CLAlpha")
     plotGraph(dfs, labels, 'CD', 'CL', "CD", "CL", "CLCD")
-    plotGraph(dfs, labels, 'alpha', 'Cm', "Alpha (degrees)", "CM", "Cmalpha")
+    plotGraph(dfs, labels, 'alpha', 'Cm', "Alpha (degrees)", "CM", "CMAlpha")
     
     #Idk what to do about this bottom graph since there's no clear y axis, so I made it manually
     
-    title = "CL/CD vs alpha at Re = 250000"
+    title = "CL/CD vs alpha at Re = 350000"
     plt.title(title)
     key = "Calculated polar for: "
     i = 0
@@ -43,8 +44,9 @@ def plotData(dfs, labels):
         tmp = tmp.iloc[0]
         plt.plot(df['alpha'],(df['CL']/df['CD']), label = tmp[len(key)+1:])
         i += 1
+    print("Creating CL/CD graph")
     plt.gca().grid()
-    plt.legend()
+    plt.legend(fontsize="10")
     plt.xlabel("Alpha (degrees)")
     plt.ylabel("CL/CD")
     plt.savefig("CLCDalpha.png", dpi = 300, edgecolor = "none")
@@ -52,9 +54,10 @@ def plotData(dfs, labels):
     plt.clf()
     plt.close()
 #Given a list of dfs, the x and y axis, plots a given number of graphs
-def plotGraph(dfs, labels, x, y, xlab, ylab, name):
+def plotGraph(dfs, labels, x, y, xlab, ylab, name, latex:bool):
     #Depending on how things go, may change how we write the title
-    title = y + " vs " + x + " at RE = 250000"
+    
+    title = y + " vs " + x + " at RE = 350000" #TODO:Change y and x to subscript instead (so C_D instead of CD)
     plt.title(title)
     key = "Calculated polar for: "
     i = 0
@@ -64,7 +67,7 @@ def plotGraph(dfs, labels, x, y, xlab, ylab, name):
         plt.plot(df[x], df[y], label = tmp[len(key)+1:])
         i += 1
     plt.gca().grid()
-    plt.legend()
+    plt.legend(fontsize="10")
     plt.xlabel(xlab)
     plt.ylabel(ylab)
     plt.savefig(name + ".png", dpi = 300, edgecolor = "none")
